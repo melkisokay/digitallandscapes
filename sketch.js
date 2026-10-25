@@ -47,9 +47,8 @@ function draw(){
   x = constrain(x, 0 , width);
   y = constrain(y, 0 , height);
   
-  // rainbow mode
   
-  if (rainbow){
+  if (palette){
     drawColor= color(random(255),random(255), random(255));
   }
   stroke(drawColor);
@@ -80,7 +79,7 @@ function handleButtons(gp){
           //A
         case 0: 
           drawColor = color( random(255), random(255), random(255));
-          rainbow = false;
+          palette = false;
           break;
           
           //B
@@ -90,7 +89,7 @@ function handleButtons(gp){
           
           // Y
         case 2: 
-          rainbow = !rainbow;
+          palette = !palette;
           break;
         
           // X
