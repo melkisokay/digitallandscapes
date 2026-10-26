@@ -3,6 +3,19 @@ let snowY = 0;
 let hill;
 let tree;
 
+let hat;
+let arms;
+let buttons
+let scarf;
+
+let hasHat = false;
+let hasArms = false;
+let hasButtons = false;
+let hasScarf = false;
+
+let hatColor;
+let scarfColor;
+
 let volumeSlider;
 let mySound;
 
@@ -23,7 +36,7 @@ async function setup () {
   
   tree = await loadImage('media/tree.gif');
   
-  // Create slider: min 0, max 1, default 0.5, moving by steps of 0.01
+  // volume slider was created with the help of google. Create slider: min 0, max 1, default 0.5, moving by steps of 0.01. 
   volumeSlider = createSlider(0, 1, 0.5, 0.01);
   volumeSlider.position(20, 20);
 
@@ -45,12 +58,18 @@ function draw () {
   // Read the slider value
   let currentVolume = volumeSlider.value();
   
-  // Apply it to the sound file continuously
+  // Apply it to the sound
   mySound.setVolume(currentVolume); 
   
   // Display the current volume value on screen
   stroke('black');
+  fill('black');
+  strokeWeight(1);
   text("volume: " + nf(currentVolume, 1, 2), 20, 60);
+  
+  text('press A, B, X, Y to customize snowman', 20, 80);
+  noFill();
+  noStroke();
   
   let gp = navigator.getGamepads()[0];
   if (!gp) {
@@ -60,6 +79,8 @@ function draw () {
     text("Connect a gamepad and press any button", width / 2, height / 2);
     return;
   }
+  
+  handleButtons(gp);
 
   let vol = mic.getLevel();
   let size = map(vol, 0, 1, 10, 300); //map volume to size
@@ -126,7 +147,8 @@ function draw () {
   fill('orange');
   triangle(x - 3, y - 2, x - 3, y + 8, x + 18, y + 3);
   noFill();
-
+  
+  drawAccessories();
 
   //left joystick
   let deadzone = 0.15; //for drifting
@@ -156,7 +178,104 @@ function draw () {
 
   treeX = constrain(treeX, 0, width);
   treeY = constrain(treeY, 0, height);
+  
+
 }
+
+function handleButtons(gp){
+  gp.buttons.forEach((button,index) => {
+    let currentlyPressed = button.pressed;
+    let previouslyPressed = previousButtons[index] || false;
+    
+    //newly pressed
+    if(currentlyPressed && !previouslyPressed){
+      switch(index) {
+          //A = hat
+        case 0: 
+          hasHat = !hasHat;
+          hatColor = color(random(255), random(255), random(255));
+          break;
+          
+          //B = hat
+        case 1: 
+          hasScarf = !hasScarf;
+          scarfColor = color(random(255), random(255), random(255));
+          break;
+          
+          // X = arms
+        case 2: 
+            hasArms = !hasArms;
+          break;
+        
+          // Y = buttons
+        case 3: 
+          hasButtons = !hasButtons;
+          break;
+      }
+      
+    }
+    
+    previousButtons[index] = currentlyPressed;
+    
+  }); 
+}
+
+function drawAccessories() {
+  //buttons
+  if (hasButtons) {
+  
+ fill(40);
+  stroke(180);
+  ellipse(x, y + 40, 5, 5);
+  ellipse(x, y + 60, 5, 5);
+  ellipse(x, y + 80, 5, 5);
+  }
+  
+  // hat
+  if (hasHat) {
+    fill(hatColor);
+    stroke(40);
+    strokeWeight(1);
+
+    // Hat brim
+    rect(x - 28, y - 27, 56, 8);
+
+    // Hat top
+    rect(x - 20, y - 55, 40, 30);
+  }
+
+  // scarf
+  if (hasScarf) {
+    stroke(scarfColor);
+    strokeWeight(15);
+    noFill();
+
+    line(x - 35, y + 22, x + 35, y + 22);
+    line(x + 20, y + 24, x + 28, y + 52);
+
+    noStroke();
+  }
+
+  // arms
+  if (hasArms) {
+    stroke('brown');
+    strokeWeight(5);
+
+    // Left arm
+    line(x - 45, y + 55, x - 95, y + 30);
+    line(x - 80, y + 37, x - 90, y + 20);
+    line(x - 80, y + 37, x - 100, y + 43);
+
+    // Right arm
+    line(x + 45, y + 55, x + 95, y + 30);
+    line(x + 80, y + 37, x + 90, y + 20);
+    line(x + 80, y + 37, x + 100, y + 43);
+
+    noStroke();
+    noFill();
+  }
+}
+
 
 function mousePressed () {
   mic.start();
