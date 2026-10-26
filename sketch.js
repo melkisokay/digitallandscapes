@@ -3,7 +3,7 @@ let x, y;
 let px, py; 
 let brushSize; 
 let drawColor; 
-let palette; 
+let palette= ['red', 'orange', 'black'];
 let previousButtons =[];
 
 async function setup(){
@@ -80,13 +80,14 @@ function handleButtons(gp){
       switch(index) {
           //B
         case 0: 
-           ellipse(50, 50, 80, 80);
           fill('red');
+noStroke();
+ellipse(50, 50, 80, 80);
             break;
           //A
         case 1: 
          drawColor = color( random(255), random(255), random(255));
-          rainbow = false;
+          palette = false;
           break;
           
           // Y
