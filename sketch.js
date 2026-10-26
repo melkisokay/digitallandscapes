@@ -1,27 +1,29 @@
-
+let bgImage;
 let x, y;
 let px, py; 
 let brushSize; 
 let drawColor; 
 let palette; 
-
 let previousButtons =[];
-function setup(){
-  createCanvas(windowWidth,windowHeight);
-  background (200);
+
+async function setup(){
+ 
+ bgImage = await loadImage('media/hill.jpg');
+   createCanvas(windowWidth,windowHeight);
   
   x = width/2;
   y = height/2;
   px = x;
   py = y;
   
-  drawColor = color(0);
+  drawColor = color('0');
   strokeWeight(brushSize);
   textAlign(CENTER,CENTER);
   
 }
 
 function draw(){
+   image(bgImage, 0, 0, width, height);
   let gp = navigator.getGamepads()[0];
   if(!gp){
     fill(0);
@@ -49,7 +51,7 @@ function draw(){
   
   
   if (palette){
-    drawColor= color(random(255),random(255), random(255));
+    drawColor= color('red', 'orange', 'black');
   }
   stroke(drawColor);
   strokeWeight(brushSize);
@@ -76,15 +78,15 @@ function handleButtons(gp){
     //newly pressed
     if(currentlyPressed && !previouslyPressed){
       switch(index) {
-          //A
-        case 0: 
-          drawColor = color( random(255), random(255), random(255));
-          palette = false;
-          break;
-          
           //B
+        case 0: 
+           ellipse(50, 50, 80, 80);
+          fill('red');
+            break;
+          //A
         case 1: 
-          background(240);
+         drawColor = color( random(255), random(255), random(255));
+          rainbow = false;
           break;
           
           // Y
@@ -94,7 +96,7 @@ function handleButtons(gp){
         
           // X
         case 3: 
-          saveCanvas ('etcha_gp', "png");
+         
           break;
       }
       
