@@ -13,12 +13,12 @@ function preload() {
  
 }
 
-
 async function setup () {
   createCanvas(800, 800);
   mic = new p5.AudioIn();
   background(220);
   
+  tree = await loadImage('media/tree.gif')
   mySound = await loadSound('media/silentnight.mp3');
   mySound.loop();
   
@@ -38,7 +38,7 @@ function draw () {
     noStroke();
     textSize(20);
     text("Connect a gamepad and press any button", width/2,height/2);
-    return;
+   return;
   }
   
 let vol = mic.getLevel();
@@ -125,5 +125,7 @@ triangle(x -3, y-2, x-3, y+8, x+18, y+3);
 
 function mousePressed (){
   mic.start();
-  mySound.play();
+ if (!mySound.isPlaying()) { //prevents the song from being played twice using the isPlating function in p5.js
+    mySound.loop();
+  }
 }
