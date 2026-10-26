@@ -1,113 +1,106 @@
-let bgImage;
-let x, y;
-let px, py; 
-let brushSize; 
-let drawColor; 
-let palette= ['red', 'orange', 'black'];
+
+let mic;
+let snowY = 0;
+let hill;
+
 let previousButtons =[];
 
-async function setup(){
- 
- //bgImage = await loadImage('media/hill.jpg');
-   createCanvas(windowWidth,windowHeight);
+function preload() {
+  hill = loadImage('media/hill.jpg');
+}
+
+
+function setup () {
+  createCanvas(800, 800);
+  mic = new p5.AudioIn();
+  background(220); 
   
   x = width/2;
   y = height/2;
   px = x;
   py = y;
   
-  drawColor = color('0');
-  strokeWeight(brushSize);
-  textAlign(CENTER,CENTER);
-  
 }
 
-function draw(){
-   // image(bgImage, 0, 0, width, height);
+function draw () {
+ image(hill, 0, 0, width, height);
+  
   let gp = navigator.getGamepads()[0];
   if(!gp){
     fill(0);
     noStroke();
     textSize(24);
-    text("Connect a controller and press any button", width/2,height/2);
+    text("Connect a gamepad and press any button", width/2,height/2);
     return;
-  
   }
+let vol = mic.getLevel();
+ let size = map(vol, 0, 1, 10, 300); //map volume to size
   
-  //left joystick 
-  let deadzone = 0.15;
-   let dx = abs(gp.axes[0]) > deadzone ? gp.axes[0] : 0;
-  let dy = abs(gp.axes[1]) > deadzone ? gp.axes[1] : 0;
+  snowY += 2 + vol * 100; //snowflake speed in response to volumne
   
-  let speed = 8;
-  px = x; 
-  py = y;
-  
-  x += dx * speed; 
-  y += dy * speed;
-  
-  x = constrain(x, 0 , width);
-  y = constrain(y, 0 , height);
-  
-  
-  if (palette){
-    drawColor= color('red', 'orange', 'black');
-  }
-  stroke(drawColor);
-  strokeWeight(brushSize);
-  
-  line(px, py, x, y);
-  
-  fill(drawColor);
+  //snowflakes
+  fill(255);
   noStroke();
-  ellipse(x, y, 80, 80);
+  ellipse(width / 2, snowY, 10, 10);
+  ellipse(10, snowY * 1.25, 20, 20); 
+  ellipse(70, snowY, 10, 10); 
+  ellipse(89, snowY * 1.25, 10, 10);
+  ellipse(150, snowY +12 , 10, 10);
+  ellipse(270, snowY + 3 , 20, 20);
+  ellipse(300, snowY * 1.25 , 10, 10); 
+  ellipse(390, snowY * 1.25 , 30, 30);
   
-  //triggers
-  let leftTrigger = gp.buttons[6].value;
-  let rightTrigger = gp.buttons[7].value;
+  ellipse(400, snowY * 1.25, 10, 10); 
+  ellipse(430, snowY * 1.25, 10, 10);
+  ellipse(470, snowY, 30, 30);
+  ellipse(550, snowY * 1.25, 10, 10);
+  ellipse(650, snowY +12 , 10, 10);
+  ellipse(700, snowY + 3 , 30, 30);
+  ellipse(750, snowY * 1.25 , 10, 10); 
+  ellipse(780, snowY * 1.25 , 30, 30);
   
-  brushSize = map(rightTrigger - leftTrigger, -1,1, 1, 30);
+  ellipse(width / 2, snowY + 3, 10, 10);
+  ellipse(10, snowY * 0.80, 20, 20); 
+  ellipse(70, snowY * 0.90, 10, 10); 
+  ellipse(89, snowY * 0.90, 10, 10);
+  ellipse(150, snowY + 20 , 10, 10);
+  ellipse(270, snowY + 30 , 20, 20);
+  ellipse(300, snowY * 0.8 , 10, 10); 
+  ellipse(390, snowY * 0.8 , 30, 30);
   
-  brushSize = constrain(brushSize, 1, 30);
-   
-  handleButtons(gp);
+  ellipse(400, snowY * 0.70, 10, 10); 
+  ellipse(430, snowY * 0.90, 10, 10);
+  ellipse(470, snowY + 23, 30, 30);
+  ellipse(550, snowY * 1.25, 10, 10);
+  ellipse(650, snowY + 3 , 10, 10);
+  ellipse(700, snowY + 9 , 30, 30);
+  ellipse(750, snowY * 0.8 , 10, 10); 
+  ellipse(780, snowY * 0.6 , 30, 30);
   
+if (snowY > height) {
+  snowY = 0;
+}
+  //body
+  fill(255);
+stroke(180);
+ellipse(200, 330, 120, 120);
+ellipse(200, 245, 90, 90);
+ellipse(200, 180, 65, 65);
+  
+  //eyes
+  fill(40);
+noStroke();
+ellipse(188, 175, 7, 7);
+ellipse(212, 175, 7, 7);
+  //nose
+fill(255, 140, 30);
+triangle(195, 183, 195, 193, 220, 187);
+  //buttons
+  ellipse(188, 175, 7, 7);
 }
 
-function handleButtons(gp){
-  gp.buttons.forEach((button,index) => {
-    let currentlyPressed = button.pressed;
-    let previouslyPressed = previousButtons[index] || false;
-    
-    //newly pressed
-    if(currentlyPressed && !previouslyPressed){
-      switch(index) {
-          //B
-        case 0: 
-          fill('red');
-        noStroke();
-        ellipse(50, 50, 80, 80);
-            break;
-          //A
-        case 1: 
-         drawColor = color( random(255), random(255), random(255));
-          palette = false;
-          break;
-          
-          // Y
-        case 2: 
-          palette = !palette;
-          break;
-        
-          // X
-        case 3: 
-         
-          break;
-      }
-      
-    }
-    
-    previousButtons[index] = currentlyPressed;
-    
-  }); 
+function mousePressed (){
+  mic.start();
+  userStartAudio();
 }
+
