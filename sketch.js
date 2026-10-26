@@ -2,6 +2,8 @@ let mic;
 let snowY = 0;
 let hill;
 let tree;
+
+let volumeSlider;
 let mySound;
 
 let treeX, treeY, treePX, treePY;
@@ -20,6 +22,10 @@ async function setup () {
   createCanvas(windowWidth, windowHeight);
   
   tree = await loadImage('media/tree.gif');
+  
+  // Create slider: min 0, max 1, default 0.5, moving by steps of 0.01
+  volumeSlider = createSlider(0, 1, 0.5, 0.01);
+  volumeSlider.position(20, 20);
 
   x = width / 2;
   y = height / 2;
@@ -36,6 +42,16 @@ function draw () {
   image(hill, 0, 0, width, height);
   image(tree, treeX, treeY, width / 3, height / 3);
 
+  // Read the slider value
+  let currentVolume = volumeSlider.value();
+  
+  // Apply it to the sound file continuously
+  mySound.setVolume(currentVolume); 
+  
+  // Display the current volume value on screen
+  stroke('black');
+  text("volume: " + nf(currentVolume, 1, 2), 20, 60);
+  
   let gp = navigator.getGamepads()[0];
   if (!gp) {
     fill(0);
@@ -109,6 +125,7 @@ function draw () {
   //nose
   fill('orange');
   triangle(x - 3, y - 2, x - 3, y + 8, x + 18, y + 3);
+  noFill();
 
 
   //left joystick
