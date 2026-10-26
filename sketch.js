@@ -3,11 +3,6 @@ let snowY = 0;
 let hill;
 let tree;
 
-let hat;
-let arms;
-let buttons
-let scarf;
-
 let hasHat = false;
 let hasArms = false;
 let hasButtons = false;
@@ -33,12 +28,12 @@ async function setup () {
   mic = new p5.AudioIn();
   background(220);
   createCanvas(windowWidth, windowHeight);
-  
+
   tree = await loadImage('media/tree.gif');
-  
-  // volume slider was created with the help of google. Create slider: min 0, max 1, default 0.5, moving by steps of 0.01. 
+
+  // volume slider was created with the help of google. createSlider(min, max, [value], [step])  https://p5js.org/reference/p5/createSlider/ 
   volumeSlider = createSlider(0, 1, 0.5, 0.01);
-  volumeSlider.position(20, 20);
+  volumeSlider.position(20, 20); //gives the slider its position position([x], [y], [positionType]) https://p5js.org/reference/p5.Element/position/
 
   x = width / 2;
   y = height / 2;
@@ -55,22 +50,20 @@ function draw () {
   image(hill, 0, 0, width, height);
   image(tree, treeX, treeY, width / 3, height / 3);
 
-  // Read the slider value
-  let currentVolume = volumeSlider.value();
-  
+  let currentVolume = volumeSlider.value(); //creates variable currentVolume and links it to the slider we created above using the value parameter
+
   // Apply it to the sound
-  mySound.setVolume(currentVolume); 
-  
+  mySound.setVolume(currentVolume); //applies the currentVolume as determined above by the volumeSlider to mySound
+
   // Display the current volume value on screen
   stroke('black');
   fill('black');
   strokeWeight(1);
-  text("volume: " + nf(currentVolume, 1, 2), 20, 60);
-  
+  text("volume", 20, 60); // creates text under volume slider
   text('press A, B, X, Y to customize snowman', 20, 80);
   noFill();
   noStroke();
-  
+
   let gp = navigator.getGamepads()[0];
   if (!gp) {
     fill(0);
@@ -79,11 +72,10 @@ function draw () {
     text("Connect a gamepad and press any button", width / 2, height / 2);
     return;
   }
-  
+
   handleButtons(gp);
 
   let vol = mic.getLevel();
-  let size = map(vol, 0, 1, 10, 300); //map volume to size
 
   snowY += 2 + vol * 100; //snowflake speed in response to volume
 
@@ -126,7 +118,7 @@ function draw () {
   ellipse(700, snowY + 9, 30, 30);
   ellipse(850, snowY * 0.8, 10, 10);
   ellipse(900, snowY * 0.6, 30, 30);
-  
+
   ellipse(width / 2, snowY + 3, 10, 10);
   ellipse(1000, snowY * 0.80, 20, 20);
   ellipse(1050, snowY * 0.90, 10, 10);
@@ -144,12 +136,13 @@ function draw () {
   ellipse(1550, snowY + 9, 30, 30);
   ellipse(1630, snowY * 0.8, 10, 10);
   ellipse(1650, snowY * 0.6, 30, 30);
-  
-  
+
+
 
   if (snowY > height) {
     snowY = 0;
   }
+  
   //body
   fill(255);
   stroke(180);
@@ -167,8 +160,8 @@ function draw () {
   fill('orange');
   triangle(x - 3, y - 2, x - 3, y + 8, x + 18, y + 3);
   noFill();
-  
-  drawAccessories();
+
+  drawAccessories(); //function used to draw the randomized accessories
 
   //left joystick
   let deadzone = 0.15; //for drifting
@@ -198,59 +191,59 @@ function draw () {
 
   treeX = constrain(treeX, 0, width);
   treeY = constrain(treeY, 0, height);
-  
+
 
 }
 
-function handleButtons(gp){
-  gp.buttons.forEach((button,index) => {
+function handleButtons (gp) {
+  gp.buttons.forEach((button, index) => {
     let currentlyPressed = button.pressed;
     let previouslyPressed = previousButtons[index] || false;
-    
+
     //newly pressed
-    if(currentlyPressed && !previouslyPressed){
-      switch(index) {
-          //A = hat
-        case 0: 
+    if (currentlyPressed && !previouslyPressed) {
+      switch (index) {
+        //A = hat
+        case 0:
           hasHat = !hasHat;
           hatColor = color(random(255), random(255), random(255));
           break;
-          
+
           //B = hat
-        case 1: 
+        case 1:
           hasScarf = !hasScarf;
           scarfColor = color(random(255), random(255), random(255));
           break;
-          
+
           // X = arms
-        case 2: 
-            hasArms = !hasArms;
+        case 2:
+          hasArms = !hasArms;
           break;
-        
+
           // Y = buttons
-        case 3: 
+        case 3:
           hasButtons = !hasButtons;
           break;
       }
-      
+
     }
-    
+
     previousButtons[index] = currentlyPressed;
-    
-  }); 
+
+  });
 }
 
-function drawAccessories() {
+function drawAccessories () {
   //buttons
   if (hasButtons) {
-  
- fill(40);
-  stroke(180);
-  ellipse(x, y + 40, 5, 5);
-  ellipse(x, y + 60, 5, 5);
-  ellipse(x, y + 80, 5, 5);
+
+    fill(40);
+    stroke(180);
+    ellipse(x, y + 40, 5, 5);
+    ellipse(x, y + 60, 5, 5);
+    ellipse(x, y + 80, 5, 5);
   }
-  
+
   // hat
   if (hasHat) {
     fill(hatColor);
@@ -305,6 +298,6 @@ function mousePressed () {
 }
 
 // works to resize canvas to fit into window size, i got this from https://stackoverflow.com/questions/47125752/trying-to-get-responsive-window-and-shapes-using-p5-js
-function windowResized() {
+function windowResized () {
   resizeCanvas(windowWidth, windowHeight);
 }
