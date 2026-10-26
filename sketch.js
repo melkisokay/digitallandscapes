@@ -15,10 +15,10 @@ function preload () {
 }
 
 async function setup () {
-  createCanvas(800, 800);
   mic = new p5.AudioIn();
   background(220);
-
+  createCanvas(windowWidth, windowHeight);
+  
   tree = await loadImage('media/tree.gif');
 
   x = width / 2;
@@ -146,4 +146,9 @@ function mousePressed () {
   if (!mySound.isPlaying()) { //prevents the song from being played twice using the isPlating function in p5.js
     mySound.loop();
   }
+}
+
+// works to resize canvas to fit into window size, i got this from https://stackoverflow.com/questions/47125752/trying-to-get-responsive-window-and-shapes-using-p5-js
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
