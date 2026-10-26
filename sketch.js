@@ -124,8 +124,28 @@ function draw () {
   ellipse(550, snowY * 1.25, 10, 10);
   ellipse(650, snowY + 3, 10, 10);
   ellipse(700, snowY + 9, 30, 30);
-  ellipse(750, snowY * 0.8, 10, 10);
-  ellipse(780, snowY * 0.6, 30, 30);
+  ellipse(850, snowY * 0.8, 10, 10);
+  ellipse(900, snowY * 0.6, 30, 30);
+  
+  ellipse(width / 2, snowY + 3, 10, 10);
+  ellipse(1000, snowY * 0.80, 20, 20);
+  ellipse(1050, snowY * 0.90, 10, 10);
+  ellipse(1109, snowY * 0.90, 10, 10);
+  ellipse(1150, snowY + 20, 10, 10);
+  ellipse(1200, snowY + 30, 20, 20);
+  ellipse(1270, snowY * 0.8, 10, 10);
+  ellipse(1300, snowY * 0.8, 30, 30);
+
+  ellipse(1350, snowY * 0.70, 10, 10);
+  ellipse(1400, snowY * 0.90, 10, 10);
+  ellipse(1420, snowY + 23, 30, 30);
+  ellipse(1450, snowY * 1.25, 10, 10);
+  ellipse(1500, snowY + 3, 10, 10);
+  ellipse(1550, snowY + 9, 30, 30);
+  ellipse(1630, snowY * 0.8, 10, 10);
+  ellipse(1650, snowY * 0.6, 30, 30);
+  
+  
 
   if (snowY > height) {
     snowY = 0;
