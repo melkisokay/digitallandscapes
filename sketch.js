@@ -8,7 +8,7 @@ let previousButtons =[];
 
 async function setup(){
  
- bgImage = await loadImage('media/hill.jpg');
+ //bgImage = await loadImage('media/hill.jpg');
    createCanvas(windowWidth,windowHeight);
   
   x = width/2;
