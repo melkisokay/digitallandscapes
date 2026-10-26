@@ -4,7 +4,7 @@ html, body {
 }
 canvas {
   display: block;
-  background-image: url("media/hill.jpg");
- background-size: cover;
+/*   background-image: url("media/hill.jpg");
+ background-size: cover; */
 }
 

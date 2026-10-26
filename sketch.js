@@ -23,7 +23,7 @@ async function setup(){
 }
 
 function draw(){
-   image(bgImage, 0, 0, width, height);
+   // image(bgImage, 0, 0, width, height);
   let gp = navigator.getGamepads()[0];
   if(!gp){
     fill(0);
