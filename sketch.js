@@ -2,18 +2,25 @@
 let mic;
 let snowY = 0;
 let hill;
+let tree;
 
-let previousButtons =[];
+let x, y, px, py;
+
+let previousButtons = [];
 
 function preload() {
   hill = loadImage('media/hill.jpg');
+ 
 }
 
 
-function setup () {
+async function setup () {
   createCanvas(800, 800);
   mic = new p5.AudioIn();
-  background(220); 
+  background(220);
+  
+  mySound = await loadSound('media/silentnight.mp3');
+  mySound.loop();
   
   x = width/2;
   y = height/2;
@@ -29,10 +36,11 @@ function draw () {
   if(!gp){
     fill(0);
     noStroke();
-    textSize(24);
+    textSize(20);
     text("Connect a gamepad and press any button", width/2,height/2);
     return;
   }
+  
 let vol = mic.getLevel();
  let size = map(vol, 0, 1, 10, 300); //map volume to size
   
@@ -83,24 +91,39 @@ if (snowY > height) {
   //body
   fill(255);
 stroke(180);
-ellipse(200, 330, 120, 120);
-ellipse(200, 245, 90, 90);
-ellipse(200, 180, 65, 65);
+ellipse(x, y+100, 120, 120);
+ellipse(x, y+50, 90, 90);
+ellipse(x, y+0, 65, 65);
   
   //eyes
   fill(40);
 noStroke();
-ellipse(188, 175, 7, 7);
-ellipse(212, 175, 7, 7);
+ellipse(x+10, y-5, 7, 7);
+ellipse(x-10, y-5, 7, 7);
+  
   //nose
-fill(255, 140, 30);
-triangle(195, 183, 195, 193, 220, 187);
-  //buttons
-  ellipse(188, 175, 7, 7);
+fill('orange');
+triangle(x -3, y-2, x-3, y+8, x+18, y+3);
+  
+  
+  //left joystick
+  let deadzone = 0.15; //for drifting
+  let dx = abs(gp.axes[0]) > deadzone ? gp.axes[0] : 0; //horizontal
+  let dy = abs(gp.axes[1]) > deadzone ? gp.axes[1] : 0; //vertical
+  
+  let speed = 8; 
+  px = x; 
+  py = y;
+  
+  x += dx * speed; 
+  y += dy * speed;
+  
+  x = constrain(x, 0 , width);
+  y = constrain(y, 0 , height);
+  
 }
 
 function mousePressed (){
   mic.start();
-  userStartAudio();
+  mySound.play();
 }
-
