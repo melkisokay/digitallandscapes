@@ -58,6 +58,10 @@ function draw(){
   
   line(px, py, x, y);
   
+  fill(drawColor);
+  noStroke();
+  ellipse(x, y, 80, 80);
+  
   //triggers
   let leftTrigger = gp.buttons[6].value;
   let rightTrigger = gp.buttons[7].value;
@@ -81,8 +85,8 @@ function handleButtons(gp){
           //B
         case 0: 
           fill('red');
-noStroke();
-ellipse(50, 50, 80, 80);
+        noStroke();
+        ellipse(50, 50, 80, 80);
             break;
           //A
         case 1: 
