@@ -13,15 +13,15 @@ function preload() {
  
 }
 
+
 async function setup () {
   createCanvas(800, 800);
   mic = new p5.AudioIn();
-  background(220);
+  background(220); 
   
-  tree = await loadImage('media/tree.gif')
-  mySound = await loadSound('media/silentnight.mp3');
-  mySound.loop();
   
+  tree = await loadImage('media/tree.gif');
+
   x = width/2;
   y = height/2;
   px = x;
@@ -44,7 +44,8 @@ function draw () {
 let vol = mic.getLevel();
  let size = map(vol, 0, 1, 10, 300); //map volume to size
   
-  snowY += 2 + vol * 100; //snowflake speed in response to volumne
+  snowY += 2 + vol * 100; //snowflake speed in response to volume
+
   
   //snowflakes
   fill(255);
@@ -123,9 +124,4 @@ triangle(x -3, y-2, x-3, y+8, x+18, y+3);
   
 }
 
-function mousePressed (){
-  mic.start();
- if (!mySound.isPlaying()) { //prevents the song from being played twice using the isPlating function in p5.js
-    mySound.loop();
-  }
-}
+
