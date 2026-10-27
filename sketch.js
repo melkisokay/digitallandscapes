@@ -292,7 +292,7 @@ function drawAccessories () {
 
 function mousePressed () {
   mic.start();
-  if (!mySound.isPlaying()) { //prevents the song from being played twice using the isPlating function in p5.js
+  if (!mySound.isPlaying()) { //prevents the song from being played twice using the is playing function in p5.js
     mySound.loop();
   }
 }
