@@ -32,7 +32,7 @@ async function setup () {
   background(220);
   createCanvas(windowWidth, windowHeight);
 
-  tree = await loadImage('media/tree.gif');
+ tree = await loadImage('media/tree.gif');
 
   // volume slider was created with the help of google. createSlider(min, max, [value], [step])  https://p5js.org/reference/p5/createSlider/ 
   volumeSlider = createSlider(0, 1, 0.5, 0.01);
@@ -64,6 +64,7 @@ function draw () {
   strokeWeight(1);
   text("volume", 20, 60); // creates text under volume slider
   text('press A, B, X, Y to customize snowman', 20, 80);
+  text('use D-pad to change tree size', 20, 100);
   noFill();
   noStroke();
 
