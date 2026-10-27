@@ -11,6 +11,9 @@ let hasScarf = false;
 let hatColor;
 let scarfColor;
 
+let treeW = 100;
+let treeH = 100;
+
 let volumeSlider;
 let mySound;
 
@@ -48,7 +51,7 @@ async function setup () {
 
 function draw () {
   image(hill, 0, 0, width, height);
-  image(tree, treeX, treeY, width / 3, height / 3);
+  image(tree, treeX, treeY, treeW, treeH); //links tree width and height to variables controlled by game pad
 
   let currentVolume = volumeSlider.value(); //creates variable currentVolume and links it to the slider we created above using the value parameter
 
@@ -224,6 +227,26 @@ function handleButtons (gp) {
         case 3:
           hasButtons = !hasButtons;
           break;
+          
+          //treeH increases with up arrow
+          case 12:
+         treeH += 20;
+          break;
+          
+          //treeH decreases with down arrow
+          case 13:
+          treeH -= 20;
+          break;
+          
+          //treeW increases with left arrow
+          case 15:
+         treeW += 20;
+          break;
+          
+          //treeW decreases with right arrow
+          case 14:
+          treeW -= 20;
+          break;
       }
 
     }
@@ -231,6 +254,8 @@ function handleButtons (gp) {
     previousButtons[index] = currentlyPressed;
 
   });
+  
+  
 }
 
 function drawAccessories () {
